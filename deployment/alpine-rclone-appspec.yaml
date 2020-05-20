@@ -1,0 +1,42 @@
+# UI NodePort service.
+apiVersion: v1
+kind: Service
+metadata:
+  name: rclone-ui
+  labels:
+    app: rclone-ui
+spec:
+  type: NodePort
+  selector:
+    app: rclone-ui
+  ports:
+  - port: 5572
+    protocol: TCP
+    name: http
+    cohesityTag: ui
+---
+# UI Pod Spec.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rclone-ui
+  labels:
+    app: rclone-ui
+spec:
+  replicas:
+    fixed: 1
+  selector:
+    matchLabels:
+      app: rclone-ui
+  template:
+    metadata:
+      labels:
+        app: rclone-ui
+    spec:
+      containers:
+        - name: rclone-ui
+          image: alpine-rclone:latest
+          resources:
+            requests:
+              cpu: 500m
+              memory: 256Mi
