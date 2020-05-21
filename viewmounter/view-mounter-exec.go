@@ -65,11 +65,14 @@ func GetAuthToken() string {
   fmt.Scanln(&password)
 
   // get auth token from cluster
+  tr := &http.Transport{
+    TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+  }
   url := "https://" + endpointIp + ":" + endpointPort + "/irisservices/api/v1/public/accessTokens"
   valuePair := map[string]string{"domain": domain, "password": password, "username": username}
   postData, _ := json.Marshal(valuePair)
   postReader := bytes.NewBuffer(postData)
-  client := &http.Client{}
+  client := &http.Client{Transport: tr}
   req, _ := http.NewRequest("POST", url, postReader)
   req.Header.Add("Accept", "application/json")
   req.Header.Add("Content-type", "application/json")
