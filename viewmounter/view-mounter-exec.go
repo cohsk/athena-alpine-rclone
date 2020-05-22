@@ -64,7 +64,7 @@ func main() {
   // ClusterViewsInfo gives information about all the views in a cluster.
   // var clusterViewsInfo ViewsInformation
   var viewsInfo []*ViewInfo
-
+  var myViewName string
   // Iterating over cluster views and storing viewname and id in a map.
   for _, view := range clusterViews {
     clusterViewIDMap[int(*view.ViewId)] = *view.Name
@@ -73,7 +73,8 @@ func main() {
       ViewId:   int(*view.ViewId),
     }
     viewsInfo = append(viewsInfo, &viewInfo)
-    fmt.Println(view.Name)
+    myViewName = *view.Name
+    fmt.Println(myViewName)
   }
 
   fmt.Println(`Mounting Views`)
