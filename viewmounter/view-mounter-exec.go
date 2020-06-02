@@ -9,6 +9,9 @@
 // to augment the rclone utility in the marketplace with
 // by giving local file system access to Cohesity views
 //
+// to grab this file from github
+// env GIT_TERMINAL_PROMPT=1 go get github.com/cohsk/athena-alpine-rclone/viewmounter
+//
 
 package main
 
