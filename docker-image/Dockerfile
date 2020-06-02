@@ -1,3 +1,5 @@
+#this file is totally notional and incomplete.
+
 #use the alpine image supported by the go team
 from golang:alpine
 
