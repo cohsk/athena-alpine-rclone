@@ -24,6 +24,8 @@ RUN go build ...
 RUN CP view-mounter-exec /usr/bin
 RUN chmod 755 /usr/bin/view-mounter-exec
 
+RUN env GIT_TERMINAL_PROMPT=1 go get github.com/examplesite/myprivaterepo
+
 adjust /etc/init.d files so that certain files run when the container starts
 copy rclone-ui.start to /etc/init.d
 chmod 755 rclone-ui.start
