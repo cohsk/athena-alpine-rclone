@@ -1,10 +1,20 @@
+#use the alpine image supported by the go team
 from golang:alpine
 
-add code to pull rclone from rclone.org
-make sure to run rclone-ui so that the gui lands on the image
+#download and install rclone
+RUN apk add curl
+RUN curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
+RUN unzip rclone-current-linux-amd64.zip
+RUN cd rclone-*-linux-amd64
+RUN cp rclone /usr/bin/
+RUN chmod 755 /usr/bin/rclone
 
+#make sure to download the rclone-gui module
+#code goes here
+
+#get the program that mounts Cohesity views
 RUN apk add git
-CD /go/src
+RUN CD /go/src
 RUN go get github.com/cohsk/cohesity-appspec/sampleapp/viewbrowser/viewbrowser
 RUN go get gopkg.in/yaml.v2
 RUN go get cohsk/viewmounter/view-mounter-exec
