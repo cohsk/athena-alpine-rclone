@@ -1,0 +1,1 @@
+rclone rcd --rc-web-gui --rc-addr :5572 --rc-user user --rc-pass pass
