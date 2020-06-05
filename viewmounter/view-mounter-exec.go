@@ -9,15 +9,14 @@
 // to augment the rclone utility in the marketplace with
 // by giving local file system access to Cohesity views
 //
-// to grab this file from github
-// env GIT_TERMINAL_PROMPT=1 go get github.com/cohsk/athena-alpine-rclone/viewmounter
-//
 
 package main
 
 import (
   "fmt"
   "os"
+  "os/exec"
+  "runtime"
   CohesityManagementSdk "github.com/cohesity/management-sdk-go/managementsdk"
   managementModels "github.com/cohesity/management-sdk-go/models"
   )
@@ -39,7 +38,6 @@ func PrintUsageAndExit() {
   os.Exit(0)
 }
 
-
 func main() {
 
   var viewsResult *managementModels.GetViewsResult
@@ -57,7 +55,7 @@ func main() {
   client := CohesityManagementSdk.NewCohesitySdkClient(ClusterVip, Username, Password, Domain)
   //CohesityManagementSdk.NewCohesityClientWithToken(hostIp, &managementAccessToken)
   
-  fmt.Println(`Getting List of Views`)
+  fmt.Println(`Getting and Mounting Views`)
   viewsResult, _ = client.Views().GetViews(viewNames, viewBoxNames,
     matchPartialNames, maxCount, maxViewId, includeInactive, tenantIds,
     allUnderHierarchy, viewBoxIds, jobIds, sortByLogicalUsage, matchAliasNames)
@@ -78,8 +76,20 @@ func main() {
     viewsInfo = append(viewsInfo, &viewInfo)
     myViewName = *view.Name
     fmt.Println(myViewName)
+
+    // Let's mount each view
+    dirName := myViewName + "_dir"
+    fmt.Println(dirName)
+    if runtime.GOOS == "windows" {
+      fmt.Println("Can't Execute this on a windows machine")
+    } else {
+      out, err := exec.Command("ls", "-ltr").Output()
+      if err != nil {
+        fmt.Printf("%s", err)
+      }
+      fmt.Println("Command Successfully Executed")
+      output := string(out[:])
+      fmt.Println(output)
+    }
   }
-
-  fmt.Println(`Mounting Views`)
-
 }
