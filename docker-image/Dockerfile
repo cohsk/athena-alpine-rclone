@@ -31,4 +31,6 @@ copy rclone-ui.start to /etc/init.d
 chmod 755 rclone-ui.start
 copy view-mounter.start to /etc/init.d
 modify the local policy to use the local startup scripts
+add openrc package to alpine 
+apk add openrc
 rc-update add local default
