@@ -34,3 +34,6 @@ modify the local policy to use the local startup scripts
 add openrc package to alpine 
 apk add openrc
 rc-update add local default
+
+# a note on how to start a cohesity k8s container
+#  kubectl.sh run -i --tty --rm rclone --image=golang:alpine --restart=Never -- sh
