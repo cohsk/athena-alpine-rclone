@@ -19,10 +19,9 @@
 # sudo docker exec -it {container id} /bin/sh
 #
 
-HOST_IP = '172.16.3.101'
-APPS_API_ENDPOINT_IP = '172.16.3.101'
-APPS_API_ENDPOINT_PORT = '443'
-APP_AUTHENTICATION_TOKEN = 'asdf' 
+export HOST_IP = '172.16.3.101'
+export APPS_API_ENDPOINT_IP = '172.16.3.101'
+export APPS_API_ENDPOINT_PORT = '443'
 
 apk update
 apk add nano
@@ -33,12 +32,7 @@ go get github.com/cohsk/cohesity-appspec/sampleapp/viewbrowser
 go get gopkg.in/yaml.v2
 env GIT_TERMINAL_PROMPT=1 go get github.com/cohsk/athena-alpine-rclone/viewmounter
 
-APP_AUTHENTICATION_TOKEN = $(curl -X POST -k --url 'https://172.16.3.101/irisservices/api/v1/public/accessTokens' -H 'Accept: application/json' -H 'Content-type: application/json' --data-raw '{"password": "admin","username": "admin"}' | jq ".accessToken")
-
-export HOST_IP
-export APPS_API_ENDPOINT_IP
-export APPS_API_ENDPOINT_PORT
-export APP_AUTHENTICATION_TOKEN 
+export APP_AUTHENTICATION_TOKEN = curl -X POST -k --url 'https://172.16.3.101/irisservices/api/v1/public/accessTokens' -H 'Accept: application/json' -H 'Content-type: application/json' --data-raw '{"password": "admin","username": "admin"}' | jq ".accessToken"
 
 # some development commands
 # cd /go/src/github.com/cohsk/athena-alpine-rclone/viewmounter
