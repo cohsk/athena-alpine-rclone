@@ -78,12 +78,12 @@ func main() {
     fmt.Println(myViewName)
 
     // Let's mount each view
-    dirName := myViewName + "_dir"
+    dirName := "/mnt/" + myViewName + "_dir"
     fmt.Println(dirName)
     if runtime.GOOS == "windows" {
       fmt.Println("Can't Execute this on a windows machine")
     } else {
-      out, err := exec.Command("ls", "-ltr").Output()
+      out, err := exec.Command("mkdir", dirName).Output()
       if err != nil {
         fmt.Printf("%s", err)
       }
