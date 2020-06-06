@@ -17,9 +17,9 @@ RUN chmod 755 /usr/bin/rclone
 #get the program that mounts Cohesity views
 RUN apk add git
 RUN CD /go/src
-RUN go get github.com/cohsk/cohesity-appspec/sampleapp/viewbrowser/viewbrowser
+RUN go get github.com/cohsk/cohesity-appspec/sampleapp/viewbrowser
 RUN go get gopkg.in/yaml.v2
-RUN go get cohsk/viewmounter/view-mounter-exec
+RUN env GIT_TERMINAL_PROMPT=1 go get github.com/cohsk/athena-alpine-rclone/viewmounter
 RUN go build ...
 RUN CP view-mounter-exec /usr/bin
 RUN chmod 755 /usr/bin/view-mounter-exec
