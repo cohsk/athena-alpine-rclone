@@ -32,7 +32,7 @@ go get github.com/cohsk/cohesity-appspec/sampleapp/viewbrowser
 go get gopkg.in/yaml.v2
 env GIT_TERMINAL_PROMPT=1 go get github.com/cohsk/athena-alpine-rclone/viewmounter
 
-export APP_AUTHENTICATION_TOKEN=`curl -X POST -k --url 'https://172.16.3.101/irisservices/api/v1/public/accessTokens' -H 'Accept: application/json' -H 'Content-type: application/json' --data-raw '{"password": "admin","username": "admin"}' | jq ".accessToken"`
+export APP_AUTHENTICATION_TOKEN=`curl -X POST -k --url 'https://172.16.3.101/irisservices/api/v1/public/accessTokens' -H 'Accept: application/json' -H 'Content-type: application/json' --data-raw '{"password": "admin","username": "admin"}' | jq -r ".accessToken"`
 
 # some development commands
 # cd /go/src/github.com/cohsk/athena-alpine-rclone/viewmounter
