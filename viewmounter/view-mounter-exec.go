@@ -17,6 +17,7 @@ import (
   "os"
   "os/exec"
   "runtime"
+  "github.com/cohesity/app-sdk-go/appsdk"
   CohesityManagementSdk "github.com/cohesity/management-sdk-go/managementsdk"
   managementModels "github.com/cohesity/management-sdk-go/models"
   )
@@ -48,13 +49,34 @@ func main() {
   var viewBoxIds, jobIds []int64
 
   fmt.Println(`Setting up Cohesity Access`)
-  Username := "admin"
-  Password := "admin"
-  ClusterVip := "172.16.3.101"
-  var Domain string // Set for AD user only.
-  client := CohesityManagementSdk.NewCohesitySdkClient(ClusterVip, Username, Password, Domain)
-  //CohesityManagementSdk.NewCohesityClientWithToken(hostIp, &managementAccessToken)
-  
+  Token := os.Getenv("APP_AUTHENTICATION_TOKEN")
+  fmt.Println(Token)
+  ClusterVip := os.Getenv("APPS_API_ENDPOINT_IP")
+  fmt.Println(ClusterVip)
+  ClusterPort := os.Getenv("APPS_API_ENDPOINT_PORT")
+  fmt.Println(ClusterPort)
+  HostIp := os.Getenv("HOST_IP")
+  fmt.Println(HostIp)
+
+  // var Domain string // Set for AD user only.
+  fmt.Println(`setting up app client`)
+  appClient := CohesityAppSdk.NewAppSdkClient(Token, ClusterVip, ClusterPort)
+
+  fmt.Println(`setting up managementAccessToken`)
+  var managementAccessToken managementModels.AccessToken
+  fmt.Println(`creating management token`)
+  managementTokenResponse, err := appClient.TokenManagement().CreateManagementAccessToken()
+  fmt.Println(err)
+  fmt.Println(`parsing management token response`)
+  managementAccessToken = managementModels.AccessToken{
+    AccessToken: managementTokenResponse.AccessToken,
+    TokenType:   managementTokenResponse.TokenType,
+  }
+
+  // client := CohesityManagementSdk.NewCohesitySdkClient(ClusterVip, Username, Password, Domain)
+  fmt.Println(`creating management client`)
+  client := CohesityManagementSdk.NewCohesityClientWithToken(HostIp, &managementAccessToken)
+
   fmt.Println(`Getting and Mounting Views`)
   viewsResult, _ = client.Views().GetViews(viewNames, viewBoxNames,
     matchPartialNames, maxCount, maxViewId, includeInactive, tenantIds,
