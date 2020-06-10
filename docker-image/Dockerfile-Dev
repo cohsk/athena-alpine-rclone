@@ -1,10 +1,4 @@
-FROM alpine-rclone:latest
-CMD [ "sh", "/etc/init.d/rclone-ui.start" ]
-
-#this file is totally notional and incomplete.
-
-#use the alpine image supported by the go team
-from golang:alpine
+FROM golang:alpine
 
 #download and install rclone
 RUN apk add curl
@@ -29,6 +23,7 @@ RUN CP view-mounter-exec /usr/bin
 RUN chmod 755 /usr/bin/view-mounter-exec
 
 RUN env GIT_TERMINAL_PROMPT=1 go get github.com/examplesite/myprivaterepo
+CMD [ "sh", "/etc/init.d/rclone-ui.start" ]
 
 # load startup script
 copy rclone-ui.start to /etc/init.d
