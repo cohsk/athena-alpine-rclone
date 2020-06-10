@@ -8,6 +8,10 @@
 # rclone executable
 # view-mounter-exec
 # rclone-ui
+#
+# remember we have to run rclone with the gui switches in order
+# to download the gui bits.  Need to factor this motion into this
+# workflow
 
 FROM alpine:latest
 
