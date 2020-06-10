@@ -31,3 +31,7 @@ chmod 755 rclone-ui.start
 
 # a note on how to start a cohesity k8s container
 #  kubectl.sh run -i --tty --rm rclone --image=golang:alpine --restart=Never -- sh
+
+# notes on how to open firewall for k8s dashboard
+# sudo firewall-cmd --ipset=cluster_ipset --add-entry=172.16.3.9
+# 172.16.3.101:63773
