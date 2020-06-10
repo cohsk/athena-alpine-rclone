@@ -5,6 +5,7 @@ from golang:alpine
 
 #download and install rclone
 RUN apk add curl
+RUN apk add nano
 RUN curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
 RUN unzip rclone-current-linux-amd64.zip
 RUN cd rclone-*-linux-amd64
