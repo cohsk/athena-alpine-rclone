@@ -1,38 +1,24 @@
-FROM alpine-rclone:latest
+# June 2020
+# Steve Klosky
+# Cohesity
+#
+# Dockerfile to build production rclone-browser Athena app image
+# Assumes 3 files are staged for the build
+# Assumes all 3 files are marked as executable before the copy
+# rclone executable
+# view-mounter-exec
+# rclone-ui
+
+FROM alpine:latest
+
+# load rclone onto the image
+COPY ./rclone /usr/bin/
+
+# load view-mounter-exec 
+COPY ./view-mounter-exec /usr/bin/
+
+# load start script
+COPY ./rclone-ui.start /etc/init.d/
+
+#setup entrypoint / startup script
 CMD [ "sh", "/etc/init.d/rclone-ui.start" ]
-
-#this file is totally notional and incomplete.
-
-#use the alpine image supported by the go team
-from golang:alpine
-
-#download and install rclone
-RUN apk add curl
-RUN apk add nano
-RUN curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
-RUN unzip rclone-current-linux-amd64.zip
-RUN cd rclone-*-linux-amd64
-RUN cp rclone /usr/bin/
-RUN chmod 755 /usr/bin/rclone
-
-#make sure to download the rclone-gui module
-#code goes here
-
-#get the program that mounts Cohesity views
-RUN apk add git
-RUN CD /go/src
-RUN go get github.com/cohsk/cohesity-appspec/sampleapp/viewbrowser
-RUN go get gopkg.in/yaml.v2
-RUN env GIT_TERMINAL_PROMPT=1 go get github.com/cohsk/athena-alpine-rclone/viewmounter
-RUN go build ...
-RUN CP view-mounter-exec /usr/bin
-RUN chmod 755 /usr/bin/view-mounter-exec
-
-RUN env GIT_TERMINAL_PROMPT=1 go get github.com/examplesite/myprivaterepo
-
-# load startup script
-copy rclone-ui.start to /etc/init.d
-chmod 755 rclone-ui.start
-
-# a note on how to start a cohesity k8s container
-#  kubectl.sh run -i --tty --rm rclone --image=golang:alpine --restart=Never -- sh
