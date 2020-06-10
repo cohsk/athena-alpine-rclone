@@ -1,3 +1,6 @@
+FROM alpine-rclone:latest
+CMD [ "sh", "/etc/init.d/rclone-ui.start" ]
+
 #this file is totally notional and incomplete.
 
 #use the alpine image supported by the go team
