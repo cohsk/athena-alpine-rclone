@@ -30,14 +30,9 @@ RUN chmod 755 /usr/bin/view-mounter-exec
 
 RUN env GIT_TERMINAL_PROMPT=1 go get github.com/examplesite/myprivaterepo
 
-adjust /etc/init.d files so that certain files run when the container starts
+# load startup script
 copy rclone-ui.start to /etc/init.d
 chmod 755 rclone-ui.start
-copy view-mounter.start to /etc/init.d
-modify the local policy to use the local startup scripts
-add openrc package to alpine 
-apk add openrc
-rc-update add local default
 
 # a note on how to start a cohesity k8s container
 #  kubectl.sh run -i --tty --rm rclone --image=golang:alpine --restart=Never -- sh
