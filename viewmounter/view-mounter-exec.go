@@ -15,9 +15,8 @@ package main
 import (
   "fmt"
   "os"
-  "os/exec"
-  "runtime"
   "github.com/cohesity/app-sdk-go/appsdk"
+  appModels "github.com/cohesity/app-sdk-go/models"
   CohesityManagementSdk "github.com/cohesity/management-sdk-go/managementsdk"
   managementModels "github.com/cohesity/management-sdk-go/models"
   )
@@ -97,21 +96,25 @@ func main() {
     }
     viewsInfo = append(viewsInfo, &viewInfo)
     myViewName = *view.Name
-    fmt.Println(myViewName)
 
-    // Let's mount each view
-    dirName := "/mnt/" + myViewName + "_dir"
-    fmt.Println(dirName)
-    if runtime.GOOS == "windows" {
-      fmt.Println("Can't Execute this on a windows machine")
-    } else {
-      out, err := exec.Command("mkdir", dirName).Output()
-      if err != nil {
-        fmt.Printf("%s", err)
-      }
-      fmt.Println("Command Successfully Executed")
-      output := string(out[:])
-      fmt.Println(output)
-    }
+    // Name of the directory that is to be created and to be mounted the view on.
+    dirName := myViewName + "_dir"
+    options := "rw"
+
+    // Options to be specified for the mount api.
+    mountOptions := appModels.MountOptions{
+    ViewName:      &myViewName,
+    DirName:       dirName,
+    MountProtocol: appModels.MountProtocol_KNFS,
+    MountOptions:  &options,
+  }
+
+  createMountParams := appModels.CreateMountParams {
+    MountOptions: &mountOptions,
+  }
+
+  // Api to mount the view.
+  appClient.Mount().CreateMount(&createMountParams)
+
   }
 }
