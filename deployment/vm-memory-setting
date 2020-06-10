@@ -1,0 +1,9 @@
+For virtual edition set the gflags
+
+iris_cli cluster update-gflag gflag-name="min_num_system_cores_for_apps" gflag-value="4" service-name=iris reason="dev"
+iris_cli cluster update-gflag gflag-name="min_system_memory_gb_for_apps" gflag-value="8" service-name=iris reason="dev"
+allssh.sh iris.sh stop && allssh.sh iris.sh start
+
+Caveats
+Not all apps can be run on VE (such as Imanis Data, Cyberscan)
+May be able to run only one app instance at a time, due to limited resources on a VE 
