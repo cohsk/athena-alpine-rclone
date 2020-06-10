@@ -11,7 +11,8 @@
 #
 # remember we have to run rclone with the gui switches in order
 # to download the gui bits.  Need to factor this motion into this
-# workflow
+# workflow.  The simplest workflow is to build, then run the image
+# on an Internet connected machine.
 
 FROM alpine:latest
 
