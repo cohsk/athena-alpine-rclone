@@ -12,7 +12,7 @@
 #
 # Some helpful commands for loading golang:alpine on Athena
 #
-# sudo firewall-cmd --ipset=cluster_ipset --add-entry=$(echo $SSH_CLIENT | awk '{print $1}')
+# sudo firewall-cmd --ipset=cluster_ipset --add-entry=172.16.3.9
 # 172.16.3.101:63773
 # kubectl.sh run -i --tty --rm rclone --image=golang:alpine --restart=Never -- sh
 # sudo docker container ls
