@@ -118,3 +118,37 @@ func main() {
 
   }
 }
+
+
+
+//
+//
+//
+//    // need to ignore invalid certs on api server
+//    http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{Insecu                                                                                                                               reSkipVerify: true}
+
+    // Call REST API to create mount
+//    message := map[string]interface{}{
+//      "dirName": dirName,
+//      "viewName":  myViewName,
+//      "mountOptions":  options,
+//      "mountProtocol":  "kNfs",
+//    }
+
+//    bytesRepresentation, err := json.Marshal(message)
+//    if err != nil {
+//      fmt.Println(`Error`)
+//    }
+
+//    var postUrl = "http://" + ClusterVip + ":" + ClusterPort + "/athenaservices/                                                                                                                               api/v1/public/mounts"
+
+//    resp, err := http.Post(postUrl, "application/json", bytes.NewBuffer(bytesRep                                                                                                                               resentation))
+//    if err != nil {
+//      fmt.Println(`Error`)
+//    }
+
+//    var result map[string]interface{}
+
+//    json.NewDecoder(resp.Body).Decode(&result)
+//  }
+//}
