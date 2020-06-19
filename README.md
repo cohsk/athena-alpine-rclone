@@ -1,5 +1,6 @@
 # athena-alpine-rclone
 This repository holds assets related to rclone gui ported to Cohesity's Athena (Marketplace) framework
+The project used alpine linux
 This is experimental and intended for educational purposes
 
 The respository is to help coordinate versions and issues
@@ -44,4 +45,10 @@ Step 14 -- Use the "meatball menu" to the right of the app to access and downloa
 
 Congratulations, the app package is ready to go
 
-If you have questions, please contact Steve Klosky -- steve.klosky@cohesity.com
+If you have questions, please log an issue here or contact Steve Klosky -- steve.klosky@cohesity.com
+
+Some notes
+
+Currently workng on a Dockerfile to build the container
+There is a concept of a dev container (has golang and some other tools)
+There is a concept of a prod container (no dev tools, only runtime bits)
