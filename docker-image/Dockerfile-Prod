@@ -3,8 +3,8 @@
 # Cohesity
 #
 # Dockerfile to build production rclone-browser Athena app image
-# Assumes 3 files are staged for the build
-# Assumes all 3 files are marked as executable before the copy
+# Assumes 2 files are staged for the build
+# Assumes both files are marked as executable before the copy
 # rclone executable
 # view-mounter-exec
 # rclone-ui
@@ -20,7 +20,13 @@ FROM alpine:latest
 COPY ./rclone /usr/bin/
 
 # load view-mounter-exec 
-COPY ./view-mounter-exec /usr/bin/
+# COPY ./view-mounter-exec /usr/bin/
+# Note - for version 1.1, we are using container mount commands in
+# the app spec.  We are not using a Cohesity mount tool.
+#
+# if you really, really need to mount a Cohesity view, we can try to
+# mount at run time using k8s tools.  Need to research this a bit.
+# Refer to Dockerfile-dev for details on accessing k8s on Cohesity
 
 # load start script
 COPY ./rclone-ui.start /etc/init.d/
