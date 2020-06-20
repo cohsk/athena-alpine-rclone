@@ -1,2 +1,1 @@
-view-mounter-exec
 rclone rcd --rc-web-gui --rc-addr :5572 --rc-user user --rc-pass pass --rc-web-gui-no-open-browser
