@@ -1,18 +1,24 @@
 # athena-alpine-rclone
-This repository holds assets related to rclone gui ported to Cohesity's Athena (Marketplace) framework
-The project used alpine linux
+This repository holds assets related to rclone gui (https://rclone.org/gui) 
+ported to Cohesity's Athena (Marketplace) framework (https://developer.cohesity.com/docs/get-started-apps.html)
+
+The project used alpine linux "alpine:latest" docker/container image
+
 This is experimental and intended for educational purposes
 
 The respository is to help coordinate versions and issues
 
 How to Build the "Rclone Browser for Cohesity Marketplace" App
 
+You can download the prebuilt package from the Cohesity Marketplace.
+
+If you are interested in learning how it was build, here are instructions.
+
 In order to build the end product, establish an account on https://devportal.cohesity.com
 Contact developer@cohesity.com if you need to get access.
 
-Use the assets in this repository along with the companion image in Docker Hub (https://hub.docker.com)
-The specific repository is https://hub.docker.com/r/cohsk/alpine-rclone
-Please download the alpine-rclone image file to your local drive.  (You'll have to do "docker pull", then "docker save")
+Use the instructions in the docker-image directory to build the image
+
 Please name the image file alpine-rclone:latest
 
 Step 1 -- login to devportal.cohesity.com
