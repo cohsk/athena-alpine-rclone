@@ -6,13 +6,41 @@
 # Assumes 2 files are staged for the build
 # Assumes both files are marked as executable before the copy
 # rclone executable
-# view-mounter-exec
 # rclone-ui
 #
 # remember we have to run rclone with the gui switches in order
 # to download the gui bits.  Need to factor this motion into this
 # workflow.  The simplest workflow is to build, then run the image
 # on an Internet connected machine.
+#
+# prep
+# make a dir
+# save dockerfile-prod in a dir
+# save rclone-ui.start in a dir
+# download rclone zip
+# extract rclone to the dir
+#
+# once prepped
+# sudo docker build --tag scratch:latest .
+# sudo docker run -dit -p:5572:5572 scratch:latest
+#
+# should be running locally - test localhost:5572
+#
+# Snapshot running container and save to a local file
+#
+# sudo docker container ls
+# sudo docker commit 6bee
+# sudo docker images
+# sudo docker tag 5b7e alpine-rclone:latest
+# sudo docker save alpine-rclone:latest -o ./alpine-rclone:latest
+#
+# output should be the image file
+#
+# cleanup
+# sudo docker kill 6bee
+# sudo docker system prune -a
+#
+# switch over to the deployment directory and follow instructions there
 
 FROM alpine:latest
 
