@@ -6,7 +6,7 @@
 # Assumes 2 files are staged for the build
 # Assumes both files are marked as executable before the copy
 # rclone executable
-# rclone-ui
+# rclone-ui.start
 #
 # remember we have to run rclone with the gui switches in order
 # to download the gui bits.  Need to factor this motion into this
