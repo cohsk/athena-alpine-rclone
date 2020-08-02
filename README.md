@@ -8,9 +8,42 @@ Read more about Rclone here -- https://rclone.org.  The Rclone gui is useful for
 operations can be done through the interface.  Additionally the app can be used to perform scheduled operations.  The intent is to run 
 rclone (command line version) on a regular schedule once the configs are tested and built.
 
-# developer notes
+# Rclone Browser Basic Operation
+Find the Rclone Browser app in the Cohesity Marketplace (https://marketplace.cohesity.com).  
+Use standard methods to load and run Rclone Browser onto a Cohesity Cluster.
+Access the app home page using the launch link from "My Apps / Rclone Browser"
+From here, use standard Rclone GUI workflows to manage cloud drive data (https://rclone.org/gui/)
+
+Tip -- basic copy operations can be completed using drag and drop in the side by side view in the Explorer section
+
+Tip -- the app currently does not persist configs between instances.
+To save config files to a client workstation use the Explorer section
+1 - Open a pane to the local filesystem (use a local filesystem config)
+2 - Browser to /root/.config/rclone
+3 - Look for and download a file named rclone.config
+
+To load previously saved configs, reverse this process, and upload the load config to the /root/.config/rclone directory
+Of course, be careful not to overwrite any configs when uploading and/or download.  Rename/edit/cut/paste as needed to
+coordinate changes.
+
+Note, the GUI may be a little out of sync when configs are "sideloaded"
+
+To schedule rclone jobs, setup the desired rclone command in the crontab
+
+1 - Use Rclone Browser to setup source and target configs
+2 - Study rclone (cli version) to determine appropriate job command syntax (copy?, sync?, ?)
+2 - Setup a config for the local file system
+3 - Use the Explorer to browse the local system and go to /etc/crontabs
+4 - Dowload the file named root to a local workstation
+5 - Edit the file and add a cron job to perform the rclone operation
+6 - Upload the file to the directory it came from (need to test.  had trouble uploading recently.  see issue #6)
+
+
+
+# Developer notes
 This repository holds assets related to rclone gui (https://rclone.org/gui) 
 ported to Cohesity's Athena (Marketplace) framework (https://developer.cohesity.com/docs/get-started-apps.html)
+production version is here -- https://marketplace.cohesity.com/app-details/rclone-browser
 
 The project used alpine linux "alpine:latest" docker/container image
 
