@@ -1,4 +1,14 @@
-# athena-alpine-rclone
+# athena-alpine-rclone (aka "Rclone Brower")
+
+This repo is for the Cohesity Rclone Browser Marketplace app
+
+# What Rclone Browser does
+This app creates a web based user interface to Rclone.  Rclone is a well know utility for managing cloud drive files and objects.  
+Read more about Rclone here -- https://rclone.org.  The Rclone gui is useful for building and testing Rclone configs.  Also simple file
+operations can be done through the interface.  Additionally the app can be used to perform scheduled operations.  The intent is to run 
+rclone (command line version) on a regular schedule once the configs are tested and built.
+
+# developer notes
 This repository holds assets related to rclone gui (https://rclone.org/gui) 
 ported to Cohesity's Athena (Marketplace) framework (https://developer.cohesity.com/docs/get-started-apps.html)
 
