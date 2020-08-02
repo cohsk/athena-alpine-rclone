@@ -37,6 +37,8 @@ To schedule rclone jobs, setup the desired rclone command in the crontab
 4 - Dowload the file named root to a local workstation
 5 - Edit the file and add a cron job to perform the rclone operation
 6 - Upload the file to the directory it came from (need to test.  had trouble uploading recently.  see issue #6)
+note - looks like uploading needs attention. Contingency plan is to get into the interactive shell 
+for the alpine-rclone-athena container and edit /etc/crontabs/root file using vi
 
 
 
