@@ -39,18 +39,27 @@ coordinate changes.  Note -- need to figure out how to fix uploads
 
 Note, the GUI may be a little out of sync when configs are "sideloaded"
 
-To schedule rclone jobs, setup the desired rclone command in the crontab
+1. To schedule rclone jobs, setup the desired rclone command in the crontab
+     * Use Rclone Browser to setup source and target configs
+     * Study rclone (cli version) to determine appropriate job command syntax (copy?, sync?, ?)
+     * Setup a config for the local file system
+     * Use the Explorer to browse the local system and go to /etc/crontabs
+     * Dowload the file named root to a local workstation
+     * Edit the file and add a cron job to perform the rclone operation
+     * Upload the file to the directory it came from (need to test.  had trouble uploading recently.  see issue #6)
 
-* Use Rclone Browser to setup source and target configs
-* Study rclone (cli version) to determine appropriate job command syntax (copy?, sync?, ?)
-* Setup a config for the local file system
-* Use the Explorer to browse the local system and go to /etc/crontabs
-* Dowload the file named root to a local workstation
-* Edit the file and add a cron job to perform the rclone operation
-* Upload the file to the directory it came from (need to test.  had trouble uploading recently.  see issue #6)
-* Note - looks like uploading needs attention. Contingency plan is to get into the interactive shell 
+Note - looks like uploading needs attention. Contingency plan is to get into the interactive shell 
 for the alpine-rclone-athena container and edit /etc/crontabs/root file using vi
-
+1. Alternate method
+     * ssh into the cohesity cluster
+     * move to the bash shell
+     * open the firewall to allow client workstation access to the k8s dashboard
+     * sudo firewall-cmd --ipset=cluster_ipset --add-entry=1.1.1.1  (of course, replace 1.1.1.1 with the ip address of your client workstation)
+     * In your web browser go to "<node_ip>:63773"
+     * Use the k8s dashboard to open a terminal windows to the alphine-rclone:latest container
+     * Use vi to edit /etc/crontabs/root
+     * Insert new crontab entries or cut, copy and paste values from the saved crontab file as needed
+     
 # Developer notes
 This repository holds assets related to rclone gui (https://rclone.org/gui) 
 ported to Cohesity's Athena (Marketplace) framework (https://developer.cohesity.com/docs/get-started-apps.html)
