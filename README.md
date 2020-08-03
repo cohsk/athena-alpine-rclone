@@ -22,9 +22,20 @@ To save config files to a client workstation use the Explorer section
 * Browser to /root/.config/rclone
 * Look for and download a file named rclone.config
 
-To load previously saved configs, reverse this process, and upload the load config to the /root/.config/rclone directory
+To load previously saved configs, 
+1. Preferred method (currently throwing an error and needs to be fixed) reverse this process, and upload the load config to the /root/.config/rclone directory
 Of course, be careful not to overwrite any configs when uploading and/or download.  Rename/edit/cut/paste as needed to
 coordinate changes.  Note -- need to figure out how to fix uploads
+
+1. Alternate method
+     * ssh into the cohesity cluster
+     * move to the bash shell
+     * open the firewall to allow client workstation access to the k8s dashboard
+     * sudo firewall-cmd --ipset=cluster_ipset --add-entry=1.1.1.1  (of course, replace 1.1.1.1 with the ip address of your client workstation)
+     * In your web browser go to "<node_ip>:63773"
+     * Use the k8s dashboard to open a terminal windows to the alphine-rclone:latest container
+     * Use vi to edit /root/.config/rclone/rclone.config
+     * Cut, copy and paste values from the saved config file as needed
 
 Note, the GUI may be a little out of sync when configs are "sideloaded"
 
