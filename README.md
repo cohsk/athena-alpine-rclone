@@ -18,9 +18,9 @@ Tip -- basic copy operations can be completed using drag and drop in the side by
 
 Tip -- the app currently does not persist configs between instances.
 To save config files to a client workstation use the Explorer section
-* 1 - Open a pane to the local filesystem (use a local filesystem config)
-* 2 - Browser to /root/.config/rclone
-* 3 - Look for and download a file named rclone.config
+* Open a pane to the local filesystem (use a local filesystem config)
+* Browser to /root/.config/rclone
+* Look for and download a file named rclone.config
 
 To load previously saved configs, reverse this process, and upload the load config to the /root/.config/rclone directory
 Of course, be careful not to overwrite any configs when uploading and/or download.  Rename/edit/cut/paste as needed to
@@ -30,13 +30,13 @@ Note, the GUI may be a little out of sync when configs are "sideloaded"
 
 To schedule rclone jobs, setup the desired rclone command in the crontab
 
-* 1 - Use Rclone Browser to setup source and target configs
-* 2 - Study rclone (cli version) to determine appropriate job command syntax (copy?, sync?, ?)
-* 3 - Setup a config for the local file system
-* 4 - Use the Explorer to browse the local system and go to /etc/crontabs
-* 5 - Dowload the file named root to a local workstation
-* 6 - Edit the file and add a cron job to perform the rclone operation
-* 7 - Upload the file to the directory it came from (need to test.  had trouble uploading recently.  see issue #6)
+* Use Rclone Browser to setup source and target configs
+* Study rclone (cli version) to determine appropriate job command syntax (copy?, sync?, ?)
+* Setup a config for the local file system
+* Use the Explorer to browse the local system and go to /etc/crontabs
+* Dowload the file named root to a local workstation
+* Edit the file and add a cron job to perform the rclone operation
+* Upload the file to the directory it came from (need to test.  had trouble uploading recently.  see issue #6)
 * Note - looks like uploading needs attention. Contingency plan is to get into the interactive shell 
 for the alpine-rclone-athena container and edit /etc/crontabs/root file using vi
 
