@@ -23,11 +23,7 @@ To save config files to a client workstation use the Explorer section
 * Look for and download a file named rclone.config
 
 To load previously saved configs, 
-1. Preferred method (currently throwing an error and needs to be fixed) reverse this process, and upload the load config to the /root/.config/rclone directory
-Of course, be careful not to overwrite any configs when uploading and/or download.  Rename/edit/cut/paste as needed to
-coordinate changes.  Note -- need to figure out how to fix uploads
 
-1. Alternate method
      * ssh into the cohesity cluster
      * move to the bash shell
      * open the firewall to allow client workstation access to the k8s dashboard
@@ -42,15 +38,6 @@ Note, the GUI may be a little out of sync when configs are "sideloaded"
 1. To schedule rclone jobs, setup the desired rclone command in the crontab
      * Use Rclone Browser to setup source and target configs
      * Study rclone (cli version) to determine appropriate job command syntax (copy?, sync?, ?)
-     * Setup a config for the local file system
-     * Use the Explorer to browse the local system and go to /etc/crontabs
-     * Dowload the file named root to a local workstation
-     * Edit the file and add a cron job to perform the rclone operation
-     * Upload the file to the directory it came from (need to test.  had trouble uploading recently.  see issue #6)
-
-Note - looks like uploading needs attention. Contingency plan is to get into the interactive shell 
-for the alpine-rclone-athena container and edit /etc/crontabs/root file using vi
-1. Alternate method
      * ssh into the cohesity cluster
      * move to the bash shell
      * open the firewall to allow client workstation access to the k8s dashboard
@@ -58,7 +45,12 @@ for the alpine-rclone-athena container and edit /etc/crontabs/root file using vi
      * In your web browser go to "<node_ip>:63773"
      * Use the k8s dashboard to open a terminal windows to the alphine-rclone:latest container
      * Use vi to edit /etc/crontabs/root
-     * Insert new crontab entries or cut, copy and paste values from the saved crontab file as needed
+     * Insert new crontab entries or cut, copy and paste values in the crontab file as needed
+1. To save the cron config
+     * Use Rclone Browser to download the crontab file
+     * Setup a config for the local file system
+     * Use the Explorer to browse the local system and go to /etc/crontabs
+     * Dowload the file named root to a local workstation
      
 # Developer notes
 This repository holds assets related to rclone gui (https://rclone.org/gui) 
