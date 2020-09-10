@@ -14,6 +14,15 @@ Use standard methods to load and run Rclone Browser onto a Cohesity Cluster.
 Access the app home page using the launch link from "My Apps / Rclone Browser"
 From here, use standard Rclone GUI workflows to manage cloud drive data (https://rclone.org/gui/)
 
+Tip -- When registering a Cohesity S3 server, use these settings
+* [svr7admin]
+* type = s3
+* provider = Other
+* access_key_id = ...
+* secret_access_key = ...
+* endpoint = svr7.cohesity.com:3000
+* v2_auth = true
+
 Tip -- basic copy operations can be completed using drag and drop in the side by side view in the Explorer section
 
 Tip -- the app currently does not persist configs between instances.
