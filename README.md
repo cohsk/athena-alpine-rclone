@@ -62,6 +62,9 @@ Note, the GUI may be a little out of sync when configs are "sideloaded"
      * Dowload the file named root to a local workstation
      
 # Developer notes
+
+Contributions are welcome.  Please contact Steve Klosky -- steve.klosky@cohesity.com for details
+
 This repository holds assets related to rclone gui (https://rclone.org/gui) 
 ported to Cohesity's Athena (Marketplace) framework (https://developer.cohesity.com/docs/get-started-apps.html)
 production version is here -- https://marketplace.cohesity.com/app-details/rclone-browser
