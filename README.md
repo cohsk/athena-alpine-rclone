@@ -61,6 +61,10 @@ Note, the GUI may be a little out of sync when configs are "sideloaded"
      * Use the Explorer to browse the local system and go to /etc/crontabs
      * Dowload the file named root to a local workstation
      
+# Lessons Learned
+
+* Here is a compilation of lessons learned while implementing rclone browser -- https://github.com/cohsk/athena-alpine-rclone/blob/master/Lessons-Learned.MD
+     
 # Developer notes
 
 Contributions are welcome.  Please contact Steve Klosky -- steve.klosky@cohesity.com for details
