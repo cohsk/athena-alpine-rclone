@@ -7,9 +7,9 @@
 # Read about rclone here -- https://rclone.org
 # Read about Cohesity EasyScript here -- https://www.cohesity.com/marketplace/easyscript/
 # Read about Rclone Browser here -- https://www.cohesity.com/marketplace/rclone-browser/
-#
 # Read about remote controlling rcd here -- https://rclone.org/rc/
 # Read about building rcd http requests here -- https://forum.rclone.org/t/python-http-post-to-rcd-examples/19071
+# Article on python queues here -- https://www.geeksforgeeks.org/queue-in-python/
 #
 # September 2020
 #
