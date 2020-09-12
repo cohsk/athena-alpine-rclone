@@ -17,6 +17,6 @@ Read about Rclone Browser here -- https://www.cohesity.com/marketplace/rclone-br
 September 2020
 
 Contributors:
-*Steve Klosky
-*{enter names here}
-*{all contributions welcome}
+* Steve Klosky
+* {enter names here}
+* {all contributions welcome}
