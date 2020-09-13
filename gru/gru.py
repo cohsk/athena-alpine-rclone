@@ -20,16 +20,18 @@
 #
 # Imports
 import types
+from queue import Queue
+from datetime import datetime
 
 # Start
 
 # In this block, setup interesting parameters
 threadsPerMinion=1
-username="user"
-password="pass"
 
 # rclone details
 rcJob = types.SimpleNamespace()
+rcJob.username="user"
+rcJob.password="pass"
 rcJob.operation = "Copy"
 #rcJob.operation = "Sync"
 rcJob.sourceRemote = "source"
@@ -38,22 +40,40 @@ rcJob.targetRemote = "target"
 rcJob.targetPath = "targetPath"
 
 #output option
-reportOut = "email"
-reportOut = "file:"
-reportOut = "email&file:"
-reportOut = ""
+reportOptions = types.SimpleNamespace()
+reportOptions.email =  True
+reportOptions.stdout =  True
+reportOptions.file =  True
+reportOptions.email =  True
 
 # Stand up a fifo job queue
+jobQ = Queue()
 
 # Stand up a fifo reporting queue
+reportQ = Queue()
 
 # Get an inventory of rcd minions
+# for now, we will hardcode this
+# I think the proper way to do this is to setup rest requests to the cluster to get app details
+minionIps = []
+minionIps.append("172.16.3.101")
+rcdPort = 61002
 
 # Send an entry to the reporting queue saying that we're starting everything
+reportQ.put("Starting Gru at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
 
 # Get Big Job details
+rcJob.sourceRemote = "r1"
+rcJob.sourcePath = "/usr"
+rcJob.targetRemote = "r1"
+rcJob.targetPath = "/tmp"
 
 # Make sure source and target are present (and match) on all minions
+reportQ.append("Validating Minions")
+validMinionIps = []
+for minionIp in minionIps:
+    if isMinionValid(thisMinion):
+        validMinionIps.append(minionIp)
 
 # Run rclone in list mode to generate the list of little jobs to run
 
@@ -73,12 +93,12 @@ reportOut = ""
 # end Do
 
 # throw an entry in the job queue showing the big job is done and end time
+reportQ.put("Finishing Gru at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
 
-# output report queue entries to email or file or both or none
-
-# kill all threads (I think this is automatic if threads are daemon threads)
-# empty the queues  (I think python handles this automatically)
-# terminate all processes
+# output report queue entries to email or file or or console or some combo or none
+# simulate this by sending to standard out
+while reportQ.qsize() > 0 :
+   print(reportQ.get())
 
 # a simple example of multithreading to help illustrate what we will build
 #
