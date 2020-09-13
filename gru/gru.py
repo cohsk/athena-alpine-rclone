@@ -20,10 +20,10 @@
 #
 # Imports
 import types
+import requests
 from queue import Queue
 from datetime import datetime
-
-# Start
+from requests.auth import HTTPBasicAuth
 
 # In this block, setup interesting parameters
 threadsPerMinion=1
@@ -38,6 +38,19 @@ rcJob.sourceRemote = "source"
 rcJob.sourcePath = "sPath"
 rcJob.targetRemote = "target"
 rcJob.targetPath = "targetPath"
+
+
+# a function to check to see if a minion rcd node is valid
+def isMinionValid(thisMinion):
+    online = False
+    #This sets up the https/http connection
+    protocol = "http"
+    if thisMinion.isSecure:
+        protocol = "https"
+    myResponse = requests.post(protocol+'://'+thisMinion.ip+':'+str(thisMinion.port)+'/rc/noop?test=1', auth=HTTPBasicAuth(rcJob.username, rcJob.password))
+    if myResponse.status_code == 200 :
+        online = True
+    return online
 
 #output option
 reportOptions = types.SimpleNamespace()
@@ -58,6 +71,7 @@ reportQ = Queue()
 minionIps = []
 minionIps.append("172.16.3.101")
 rcdPort = 61002
+rcdIsSecure = False
 
 # Send an entry to the reporting queue saying that we're starting everything
 reportQ.put("Starting Gru at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
@@ -69,11 +83,17 @@ rcJob.targetRemote = "r1"
 rcJob.targetPath = "/tmp"
 
 # Make sure source and target are present (and match) on all minions
-reportQ.append("Validating Minions")
+reportQ.put("Validating Minions")
 validMinionIps = []
+thisMinion = types.SimpleNamespace()
+thisMinion.port=rcdPort
+thisMinion.isSecure = rcdIsSecure
+
 for minionIp in minionIps:
+    thisMinion.ip = minionIp
     if isMinionValid(thisMinion):
         validMinionIps.append(minionIp)
+reportQ.put("Found " + str(len(validMinionIps)) + " Minions")
 
 # Run rclone in list mode to generate the list of little jobs to run
 
