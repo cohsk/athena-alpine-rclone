@@ -44,6 +44,8 @@ To load previously saved configs,
 
 Note, the GUI may be a little out of sync when configs are "sideloaded"
 
+Note - cron is available in rclone browser version 1.1 and up.  Version 1.1.2 is due out around 9/15/2020.  Message Steve Klosky if you need it sooner.  Alteratively, load cron by getting to the shell and issuing the "apk update, then apk add cron" commands.
+
 1. To schedule rclone jobs, setup the desired rclone command in the crontab
      * Use Rclone Browser to setup source and target configs
      * Study rclone (cli version) to determine appropriate job command syntax (copy?, sync?, ?)
