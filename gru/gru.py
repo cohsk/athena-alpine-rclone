@@ -67,6 +67,25 @@ def isMinionValid(thisMinion):
         online = True
     return online
 
+# a function to check to see if a minion rcd node is valid
+def fillJobQ(minions, rcloneJob):
+    global jobQ
+    global rcd
+    #This sets up the https/http connection
+    protocol = "http"
+    if rcd.isSecure:
+        protocol = "https"
+    myResponse = requests.post(protocol+'://'+minions[0].ip+':'+str(minions[0].port)+'/rc/noop?test=1', auth=HTTPBasicAuth(rcJob.username, rcJob.password))
+    if myResponse.status_code == 200 :
+        # this is a comment
+        print("hello")
+# an example from rclone.org
+# this is the rpc version
+#rclone rc core/command command=ls -a mydrive:/ -o max-depth=1
+#rclone rc core/command -a ls -a mydrive:/ -o max-depth=1
+#
+# need to convert to http equivalent
+
 # Stand up a fifo job queue
 jobQ = Queue()
 
@@ -90,6 +109,7 @@ rcJob.sourceRemote = "r1"
 rcJob.sourcePath = "/usr"
 rcJob.targetRemote = "r1"
 rcJob.targetPath = "/tmp"
+rcJob.operation = "Copy"
 
 # Make sure source and target are present (and match) on all minions
 reportQ.put("Validating Minions")
@@ -104,23 +124,25 @@ for minionIp in rcd.minionIps:
         validMinionIps.append(minionIp)
 reportQ.put("Found " + str(len(validMinionIps)) + " Minions")
 
-# Run rclone in list mode to generate the list of little jobs to run
+if len(validMinionIps) > 0:
+    # Run rclone in list mode to generate the list of little jobs to run
+    # Something like rclone copy --dry-run r1:/usr r1:/tmp
+    fillJobQ(rcJob, validMinionIps)
 
+    # Submit all little jobs to the job queue
 
-# Submit all little jobs to the job queue
+    # Spawn thread(s) to handle jobs for each minion.  Note, number of threads per minion will be variable
+    # so that the user can adjust to match their environment.
 
-# Spawn thread(s) to handle jobs for each minion.  Note, number of threads per minion will be variable
-# so that the user can adjust to match their environment.
+    ###########
+    #
+    # thread logic will be somewhere below
+    #
+    ##########
 
-###########
-#
-# thread logic will be somewhere below
-#
-##########
-
-# Do while job queue length is greater than 0
-# Sleep 1
-# end Do
+    # Do while job queue length is greater than 0
+    # Sleep 1
+    # end Do
 
 # throw an entry in the job queue showing the big job is done and end time
 reportQ.put("Finishing Gru at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
@@ -128,7 +150,7 @@ reportQ.put("Finishing Gru at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f
 # output report queue entries to email or file or or console or some combo or none
 # simulate this by sending to standard out
 while reportQ.qsize() > 0 :
-   print(reportQ.get())
+    print(reportQ.get())
 
 # a simple example of multithreading to help illustrate what we will build
 #
