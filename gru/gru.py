@@ -11,6 +11,15 @@
 # Read about building rcd http requests here -- https://forum.rclone.org/t/python-http-post-to-rcd-examples/19071
 # Article on python queues here -- https://www.geeksforgeeks.org/queue-in-python/
 #
+
+# some notes from Nick
+# There are various ways you could do this with rclone as it stands now but it isn't set up to do distributed copying at the moment.
+# Rclone is quite good at multithreading so you can increase the number of transfers with --transfers to speed things up.
+# I guess if you want to work faster than one machine could work then splitting the work up would be beneficial.
+# one thing you can do is make a list of files you want transferred from the source (with rclone lsf -R maybe) and then cut this into chunks and feed that into a number of rclone instances with --files-from-raw
+
+
+
 # September 2020
 #
 # Contributors:
@@ -39,6 +48,12 @@ rcJob.sourcePath = "sPath"
 rcJob.targetRemote = "target"
 rcJob.targetPath = "targetPath"
 
+#output settings
+reportOptions = types.SimpleNamespace()
+reportOptions.email =  True
+reportOptions.stdout =  True
+reportOptions.file =  True
+reportOptions.email =  True
 
 # a function to check to see if a minion rcd node is valid
 def isMinionValid(thisMinion):
@@ -52,13 +67,6 @@ def isMinionValid(thisMinion):
         online = True
     return online
 
-#output option
-reportOptions = types.SimpleNamespace()
-reportOptions.email =  True
-reportOptions.stdout =  True
-reportOptions.file =  True
-reportOptions.email =  True
-
 # Stand up a fifo job queue
 jobQ = Queue()
 
@@ -68,10 +76,11 @@ reportQ = Queue()
 # Get an inventory of rcd minions
 # for now, we will hardcode this
 # I think the proper way to do this is to setup rest requests to the cluster to get app details
-minionIps = []
-minionIps.append("172.16.3.101")
-rcdPort = 61002
-rcdIsSecure = False
+rcd = types.SimpleNamespace()
+rcd.minionIps = []
+rcd.minionIps.append("172.16.3.101")
+rcd.port = 61002
+rcd.isSecure = False
 
 # Send an entry to the reporting queue saying that we're starting everything
 reportQ.put("Starting Gru at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
@@ -86,16 +95,17 @@ rcJob.targetPath = "/tmp"
 reportQ.put("Validating Minions")
 validMinionIps = []
 thisMinion = types.SimpleNamespace()
-thisMinion.port=rcdPort
-thisMinion.isSecure = rcdIsSecure
+thisMinion.port=rcd.port
+thisMinion.isSecure = rcd.isSecure
 
-for minionIp in minionIps:
+for minionIp in rcd.minionIps:
     thisMinion.ip = minionIp
     if isMinionValid(thisMinion):
         validMinionIps.append(minionIp)
 reportQ.put("Found " + str(len(validMinionIps)) + " Minions")
 
 # Run rclone in list mode to generate the list of little jobs to run
+
 
 # Submit all little jobs to the job queue
 
