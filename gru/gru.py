@@ -24,7 +24,7 @@
 #
 # Contributors:
 # Steve Klosky
-# {enter names here}
+# Ben Klosky
 #
 #
 # Imports
@@ -35,7 +35,7 @@ from datetime import datetime
 from requests.auth import HTTPBasicAuth
 
 # In this block, setup interesting parameters
-threadsPerMinion=1
+threadsPerMinion=1  #in future, will be json file.read(parameter)
 
 # rclone details
 rcJob = types.SimpleNamespace()
@@ -57,6 +57,9 @@ reportOptions.email =  True
 
 # a function to check to see if a minion rcd node is valid
 def isMinionValid(thisMinion):
+    # Make sure source and target are present (and match) on all minions
+    reportQ.put("Validating Minions")
+
     online = False
     #This sets up the https/http connection
     protocol = "http"
@@ -111,15 +114,12 @@ rcJob.targetRemote = "r1"
 rcJob.targetPath = "/tmp"
 rcJob.operation = "Copy"
 
-# Make sure source and target are present (and match) on all minions
-reportQ.put("Validating Minions")
-validMinionIps = []
-thisMinion = types.SimpleNamespace()
-thisMinion.port=rcd.port
-thisMinion.isSecure = rcd.isSecure
-
 for minionIp in rcd.minionIps:
+    thisMinion = types.SimpleNamespace()
+    thisMinion.port=rcd.port
+    thisMinion.isSecure = rcd.isSecure
     thisMinion.ip = minionIp
+    validMinionIps = []
     if isMinionValid(thisMinion):
         validMinionIps.append(minionIp)
 reportQ.put("Found " + str(len(validMinionIps)) + " Minions")
@@ -140,9 +140,9 @@ if len(validMinionIps) > 0:
     #
     ##########
 
-    # Do while job queue length is greater than 0
-    # Sleep 1
-    # end Do
+    # Do while job queue length is greater than 0, then terminate process
+    while len(jobQ) > 0:
+        sleep(1)
 
 # throw an entry in the job queue showing the big job is done and end time
 reportQ.put("Finishing Gru at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
