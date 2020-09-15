@@ -135,7 +135,7 @@ if len(validMinionIps) > 0:
     # so that the user can adjust to match their environment.
 
     ###########
-    #
+    # 
     # thread logic will be somewhere below
     #
     ##########
