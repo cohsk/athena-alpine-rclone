@@ -33,6 +33,9 @@ import requests
 from queue import Queue
 from datetime import datetime
 from requests.auth import HTTPBasicAuth
+#threading libraries
+from threading import Thread
+import time
 
 # In this block, setup interesting parameters
 threadsPerMinion=1  #in future, will be json file.read(parameter)
@@ -82,6 +85,17 @@ def fillJobQ(minions, rcloneJob):
     if myResponse.status_code == 200 :
         # this is a comment
         print("hello")
+
+def workerAction(validIP):  #needs to hold and allocate jobs to be completed
+    while jobQ.qsize() > 0:
+        #pop a task from the job queue
+        task = jobQ.pop(0)
+        #send the job to a minion
+        
+        #have minion do action
+        requests.get(task)
+        #record action in report queue
+        reportQ.put("Minion doing task at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
 # an example from rclone.org
 # this is the rpc version
 #rclone rc core/command command=ls -a mydrive:/ -o max-depth=1
@@ -91,6 +105,9 @@ def fillJobQ(minions, rcloneJob):
 
 # Stand up a fifo job queue
 jobQ = Queue()
+#temporary
+for i in range 100:
+    jobQ.append("www.google.com")
 
 # Stand up a fifo reporting queue
 reportQ = Queue()
@@ -124,25 +141,20 @@ for minionIp in rcd.minionIps:
         validMinionIps.append(minionIp)
 reportQ.put("Found " + str(len(validMinionIps)) + " Minions")
 
-if len(validMinionIps) > 0:
+if len(validMinionIps) > 0:  # Do while job queue length is greater than 0, then terminate process
     # Run rclone in list mode to generate the list of little jobs to run
     # Something like rclone copy --dry-run r1:/usr r1:/tmp
     fillJobQ(rcJob, validMinionIps)
-
+    numThreads = threadsPerMinion * len(validMinionIps)
     # Submit all little jobs to the job queue
-
+    threads = []
+    for validIP in validMinionIps:
+        for i in range(threadsPerMinion):
+            thread = Thread( target=workerAction(), args=(f"Thread-{i}", ) )
+            threads.append(thread)
+            thread.start()
     # Spawn thread(s) to handle jobs for each minion.  Note, number of threads per minion will be variable
     # so that the user can adjust to match their environment.
-
-    ###########
-    #
-    # thread logic will be somewhere below
-    #
-    ##########
-
-    # Do while job queue length is greater than 0, then terminate process
-    while len(jobQ) > 0:
-        sleep(1)
 
 # throw an entry in the job queue showing the big job is done and end time
 reportQ.put("Finishing Gru at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
