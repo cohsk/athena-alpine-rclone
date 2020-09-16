@@ -18,5 +18,7 @@ September 2020
 
 Contributors:
 * Steve Klosky
-* {enter names here}
+* Ben Klosky
 * {all contributions welcome}
+
+Warning - 9/15/2020 - we are using this python script for training purposes.  Please use with caution.
