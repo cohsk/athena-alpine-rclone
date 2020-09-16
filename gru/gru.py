@@ -91,11 +91,15 @@ def workerAction(validIP):  #needs to hold and allocate jobs to be completed
         #pop a task from the job queue
         task = jobQ.pop(0)
         #send the job to a minion
-        
+
+        reportQ.put("Minion beginning task at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
         #have minion do action
-        requests.get(task)
-        #record action in report queue
-        reportQ.put("Minion doing task at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
+        try:
+            requests.get(task)
+        except:
+            reportQ.put(f"Minion failed task: {task} " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
+        reportQ.put("Minion successfully completed task: {} " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
+
 # an example from rclone.org
 # this is the rpc version
 #rclone rc core/command command=ls -a mydrive:/ -o max-depth=1
