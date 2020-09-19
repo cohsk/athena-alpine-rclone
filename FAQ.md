@@ -11,3 +11,7 @@ Additionally, the value of QoS entered when starting the app will influence how 
 Version 1.0.80 of rclone browser uses 1 container on 1 node of the system.  Version 1.1.2 requests 1 container for every node on the system.  This will impact resource allocation.
 
 As you can see there are many combinations and options.  I recommend you run some trials on a test system to get a sense of your specific system capacity.
+
+Q: Why am I having trouble mounting disks with rclone browser?
+
+A: This feature is not supported.  Athena-alpine-rclone is built on a container architecture within Cohesity's ecosystem.  Currently there is limited ability to mount to containers natively.  Over time this may evolve to support mounting.
