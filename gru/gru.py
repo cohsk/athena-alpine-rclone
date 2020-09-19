@@ -131,6 +131,10 @@ reportQ = Queue()
 rcd = types.SimpleNamespace()
 rcd.minionIps = []
 rcd.minionIps.append("172.16.3.101")
+rcd.minionIps.append("172.16.3.102")
+rcd.minionIps.append("172.16.3.103")
+rcd.minionIps.append("172.16.3.104")
+rcd.minionIps.append("172.16.3.105")
 rcd.port = 61002
 rcd.isSecure = False
 
