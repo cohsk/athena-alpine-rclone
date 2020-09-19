@@ -18,6 +18,10 @@
 # I guess if you want to work faster than one machine could work then splitting the work up would be beneficial.
 # one thing you can do is make a list of files you want transferred from the source (with rclone lsf -R maybe) and then cut this into chunks and feed that into a number of rclone instances with --files-from-raw
 
+# Some notes on starting python3 in an alpine linux container
+# RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+# RUN python3 -m ensurepip
+# RUN pip3 install --no-cache --upgrade pip setuptools
 
 
 # September 2020
@@ -68,7 +72,8 @@ def isMinionValid(thisMinion):
     protocol = "http"
     if thisMinion.isSecure:
         protocol = "https"
-    myResponse = requests.post(protocol+'://'+thisMinion.ip+':'+str(thisMinion.port)+'/rc/noop?test=1', auth=HTTPBasicAuth(rcJob.username, rcJob.password))
+    # myResponse = requests.post(protocol+'://'+thisMinion.ip+':'+str(thisMinion.port)+'/rc/noop?test=1', auth=HTTPBasicAuth(rcJob.username, rcJob.password))
+    myResponse = requests.get(protocol+'://www.google.com')
     if myResponse.status_code == 200 :
         online = True
     return online
@@ -77,27 +82,34 @@ def isMinionValid(thisMinion):
 def fillJobQ(minions, rcloneJob):
     global jobQ
     global rcd
-    #This sets up the https/http connection
-    protocol = "http"
-    if rcd.isSecure:
-        protocol = "https"
-    myResponse = requests.post(protocol+'://'+minions[0].ip+':'+str(minions[0].port)+'/rc/noop?test=1', auth=HTTPBasicAuth(rcJob.username, rcJob.password))
-    if myResponse.status_code == 200 :
-        # this is a comment
-        print("hello")
 
-def workerAction(validIP):  #needs to hold and allocate jobs to be completed
+    #temporary
+    for i in range (100):
+        jobQ.put("www.google.com")
+        print (i)
+
+
+    #This sets up the https/http connection
+    # protocol = "http"
+    # if rcd.isSecure:
+    #     protocol = "https"
+    # myResponse = requests.post(protocol+'://'+minions[0].ip+':'+str(minions[0].port)+'/rc/noop?test=1', auth=HTTPBasicAuth(rcJob.username, rcJob.password))
+    # if myResponse.status_code == 200 :
+    #     # this is a comment
+    #     print("hello")
+
+def workerAction(validIp):  #needs to hold and allocate jobs to be completed
     while jobQ.qsize() > 0:
         #pop a task from the job queue
-        task = jobQ.pop(0)
+        task = jobQ.get()
         #send the job to a minion
 
         reportQ.put("Minion beginning task at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
-        #have minion do action
-        try:
-            requests.get(task)
-        except:
-            reportQ.put(f"Minion failed task: {task} " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
+        # #have minion do action
+        # try:
+        #     requests.get(task)
+        # except:
+        #     reportQ.put(f"Minion failed task: {task} " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
         reportQ.put("Minion successfully completed task: {} " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)"))
 
 # an example from rclone.org
@@ -109,9 +121,6 @@ def workerAction(validIP):  #needs to hold and allocate jobs to be completed
 
 # Stand up a fifo job queue
 jobQ = Queue()
-#temporary
-for i in range 100:
-    jobQ.append("www.google.com")
 
 # Stand up a fifo reporting queue
 reportQ = Queue()
@@ -154,7 +163,7 @@ if len(validMinionIps) > 0:  # Do while job queue length is greater than 0, then
     threads = []
     for validIP in validMinionIps:
         for i in range(threadsPerMinion):
-            thread = Thread( target=workerAction(), args=(f"Thread-{i}", ) )
+            thread = Thread( target=workerAction(validIP), args=(f"Thread-{i}", ) )
             threads.append(thread)
             thread.start()
     # Spawn thread(s) to handle jobs for each minion.  Note, number of threads per minion will be variable
