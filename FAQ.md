@@ -25,3 +25,20 @@ Normally the config file is in your home directory as a file called .config/rclo
 If there is a file rclone.conf in the same directory as the rclone executable it will be preferred. This file must be created manually for Rclone to use it, it will never be created automatically.
 
 If you run rclone config file you will see where the default location is for you.
+
+Q: Does rclone encrypt data in flight?
+
+A: In flight encryption is a function of the cloud storage used.  Rclone supports about 30 types of cloud storage.  The vast majority communicate over https to ensure encryption in flight. When available, rclone uses https.  So, we’ll need to verify on a case by case basis.  
+
+For S3
+“HTTPS is supported by S3, to protect data in transit.
+Quoting from the Security section of the S3 FAQs: You can securely upload/download your data to Amazon S3 via SSL endpoints using the HTTPS protocol. If you're using the https:// endpoint for S3, then your data in transit should be encrypted properly.Jun 12, 2017”
+
+For GCS
+“	• Figure 1 shows an external path (labeled connection D). Typical cases of this kind of routing request are:
+
+		• From a Compute Engine VM to Google Cloud Storage
+		• From a Compute Engine VM to a Machine Learning API
+From the VM to the GFE, Google Cloud services support protecting these connections with TLS by default2. The connection is authenticated from the GFE to the service and encrypted if the connection leaves a physical boundary.
+"
+
