@@ -15,3 +15,13 @@ As you can see there are many combinations and options.  I recommend you run som
 Q: Why am I having trouble mounting disks with rclone browser?
 
 A: This feature is not supported.  Athena-alpine-rclone is built on a container architecture within Cohesity's ecosystem.  Currently there is limited ability to mount to containers natively.  Over time this may evolve to support mounting.
+
+Q:  Why did my configs disappear?  Where are my config files?
+
+A:  The early versions of rclone browser do not backup the rclone config files automatically.  Please manually backup the rclone config files in the interim. The rclone config file is located in the container file system.
+
+Normally the config file is in your home directory as a file called .config/rclone/rclone.conf (or .rclone.conf if created with an older version). If $XDG_CONFIG_HOME is set it will be at $XDG_CONFIG_HOME/rclone/rclone.conf.
+
+If there is a file rclone.conf in the same directory as the rclone executable it will be preferred. This file must be created manually for Rclone to use it, it will never be created automatically.
+
+If you run rclone config file you will see where the default location is for you.
