@@ -1,5 +1,6 @@
 This a collection of lessons learned from testing Rclone browser in the Cohesity Marketplace
 
+1.  Make sure to download and save your configuration file.  The configuration does not persist from pod instance to pod instance
 1.  When writing to Cohesity S3, set authorization to v2
 1.  When writing to Cohesity S3, don't forget the bucket name
 1.  When setting up a local file system as a remote, don't go directly to the explorer.  Setup a remote under the config menu
