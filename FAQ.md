@@ -1,3 +1,17 @@
+Q: How do I exec into the rclone container?
+
+A: ssh into a Cohesity node and get to the bash prompt.  Then we'll need to get the namespace and the pod name to get into the rclone container.  To get app namespaces and pods use this command
+
+     * kubectl.sh get pods -A | egrep 'rclone'
+
+Then use this command to exec into the rclone container. Replace "rclone_namespace" and "rclone_pod" with appropriate values from the command output above.
+
+     * kubectl.sh -n rclone_namespace exec -it rclone_pod sh
+     
+Here is a video showing this process -- https://youtu.be/ux1p4s8nWyw
+
+Note -- depending on system resources and app launch settings you may have more than one rclone pod per Cohesity node.  The concept behind this is that with large workloads, we can spread portions of a copy or sync job across many pods.
+
 Q: Can we create separate multiple rclone instances in a single cohesity CE cluster or is it going to be a 1:1 effort?
 
 A: Yes, multiple instances can run on the same cluster.  Each instance will be assigned a unique port for GUI access.  Each will run in a separate container for cli access.
