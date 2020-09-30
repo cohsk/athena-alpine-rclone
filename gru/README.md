@@ -22,3 +22,5 @@ Contributors:
 * {all contributions welcome}
 
 Warning - 9/15/2020 - we are using this python script for training purposes.  Please use with caution.
+
+Note - need to put this "future capability" on it's own branch
