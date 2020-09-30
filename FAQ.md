@@ -42,3 +42,22 @@ For GCS
 From the VM to the GFE, Google Cloud services support protecting these connections with TLS by default2. The connection is authenticated from the GFE to the service and encrypted if the connection leaves a physical boundary.
 "
 
+Q: Is help available for getting started with Rclone and Rclone browser?
+
+A: Rclone is an open source utility.  You will find documentation at https://rclone.org. The marketplace app is a “port” of the rclone utility to the marketplace framework.  Also, on a best effort basis, Steve Klosky can help get you started.  Email me at steve.klosky@cohesity.com
+
+Q: Can Rclone browser copy from Cohesity SmartFiles to Azure Blob?
+
+A: Rclone will work well for copying files from SmartFiles to Azure BLOB in their original format.  Rclone is very good at translating between a wide variety of cloud storage systems.
+
+Q: Does Rclone support incremental copies?
+
+A: Yes.  In Rclone terminology this is called a sync operation.
+
+Q: Does Rclone support scheduled copies?
+
+A: Not natively.  I've loaded cron into the Rclone browser utility for scheduling purposes.  Note -- there are some RFE's around more advanced scheduling and more robust load balancing.  Check the github issues area for details.
+
+Q: How does Rclone scan for incremental changes?
+
+A: Rclone is similar to filerunner with the way it performs “diffs” between the source and the target.  It walks the directory tree on source and target and compares the contents of each directory.  When we configure Rclone, we choose which interface is used for each storage system.
