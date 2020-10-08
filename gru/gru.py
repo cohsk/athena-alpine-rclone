@@ -40,11 +40,14 @@ from requests.auth import HTTPBasicAuth
 #threading libraries
 from threading import Thread
 import time
+import json
 
 # In this block, setup interesting parameters
+gruConfig = json.loads('{ "threadsPerMinion": [1] }, "rcJob": [ "username": ["user"], "password": ["pass"], "operation": ["copy"], "sourceRemote": ["source"], "sourcePath": ["sPath"], "targetRemote": ["target"], "targetPath": ["targetPath"]] }' #, "reportOptions": [ "email": [True], "stdout": [True], "file": [True]] }')
+
 threadsPerMinion=1  #in future, will be json file.read(parameter)
 
-# rclone details
+#rclone details
 rcJob = types.SimpleNamespace()
 rcJob.username="user"
 rcJob.password="pass"
@@ -180,47 +183,3 @@ reportQ.put("Finishing Gru at " + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f
 # simulate this by sending to standard out
 while reportQ.qsize() > 0 :
     print(reportQ.get())
-
-# a simple example of multithreading to help illustrate what we will build
-#
-#from threading import Thread
-#import time
-#a=1
-#
-#def thread1(threadname):
-#    global a
-#    while True:
-#        print(a)
-#
-#def thread2(threadname):
-#    global a
-#    while True:
-#        a += 1
-#
-#        time.sleep(1)
-#
-#thread1 = Thread( target=thread1, args=("Thread-1", ) )
-#thread2 = Thread( target=thread2, args=("Thread-2", ) )
-#
-#thread1.start()
-#thread2.start()
-#
-#thread1.join()
-#thread2.join()
-
-
-### start of thread logic ###
-
-# thread startup
-## determine my minion
-## authenticate to my minion
-
-#####  while the length of the job queue > 0
-# grab a little job from the queue
-# submit the little job to my minion
-# handle response from my minion
-## log error or success in reporting queue
-## remove item from the job queue
-##### end while
-
-### end of thread logic ###
