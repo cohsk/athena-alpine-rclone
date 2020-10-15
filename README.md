@@ -1,136 +1,28 @@
-# athena-alpine-rclone (aka "Rclone Brower")
+# About Rclone Browser
 
-This repo is for the Cohesity Rclone Browser Marketplace app
+With the widespread use of data in the cloud, teams need powerful tools to manage the data.  Object storage is very popular for cloud data.  Rclone (rclone.org) is a popular tool to help manage object based data.  Using Rsync (rsync.samba.org) principles as a starting point, Rclone was developed to sync data between object stores.  As of this writing (October 2020), Rclone supports approximate 30 different object storage systems.  Rclone is an active open source project and new capabilities are regularly added.  Rclone capabilities have evolved well beyond the original Rsync principles.
 
-# What Rclone Browser does
-This app creates a web based user interface to Rclone.  Rclone is a well know utility for managing cloud drive files and objects.  
-Read more about Rclone here -- https://rclone.org.  The Rclone gui is useful for building and testing Rclone configs.  Also simple file
-operations can be done through the interface.  Additionally the app can be used to perform scheduled operations.  The intent is to run 
-rclone (command line version) on a regular schedule once the configs are tested and built.
+In 2019, a web based graphical user interface was added to Rclone.  The notion here is that a guided GUI will help users operate Rclone with a lower barrier to learning.  While the GUI is super useful, users may need to refer to the Rclone documentation from time to time for detailed information.
+
+This port of Rclone and the Rclone web based GUI brings the both the CLI and the web GUI to the Cohesity Marketplace (aka Cohesity Athena Framework).
+The intent is that administrators can use the GUI to explore configurations and object stores.  Additionally, once Rclone configs are set, administrators
+can easily schedule rclone jobs for regular operations.  Note that the CLI does give access to many more options than the GUI.  For example, if an admin
+is looking to work with invalid certificates, this is supported in the CLI, but not in the GUI.
+
+There are several use cases for this utility in a Cohesity setting
+* Data Migration
+* Data Backup
+* Archive Migration
 
 # Rclone Browser Basic Operation
-Find the Rclone Browser app in the Cohesity Marketplace (https://marketplace.cohesity.com).  
-Use standard methods to load and run Rclone Browser onto a Cohesity Cluster.
-Access the app home page using the launch link from "My Apps / Rclone Browser"
-From here, use standard Rclone GUI workflows to manage cloud drive data (https://rclone.org/gui/)
+* Find the Rclone Browser app in the Cohesity Marketplace (https://marketplace.cohesity.com).  
+* Use standard methods to load and run Rclone Browser onto a Cohesity Cluster.
+* Access the app home page using the launch link from "My Apps / Rclone Browser"
+* From here, use standard Rclone GUI workflows to manage cloud drive data (https://rclone.org/gui/)
 
-Tip -- When registering a Cohesity S3 server, use these settings
-* [svr7admin]
-* type = s3
-* provider = Other
-* access_key_id = ...
-* secret_access_key = ...
-* endpoint = svr7.cohesity.com:3000
-* v2_auth = true
+As an example, here is a video of setting up a local store and a google cloud store -- https://youtu.be/H6noIywIVd0
 
-Tip -- basic copy operations can be completed using drag and drop in the side by side view in the Explorer section
-
-Tip -- the app currently does not persist configs between instances.
-To save config files to a client workstation use the Explorer section
-* Open a pane to the local filesystem (use a local filesystem config)
-* Browser to /root/.config/rclone
-* Look for and download a file named rclone.config
-
-To load previously saved configs, 
-
-     * ssh into the cohesity cluster
-     * move to the bash shell
-     * open the firewall to allow client workstation access to the k8s dashboard
-     * sudo firewall-cmd --ipset=cluster_ipset --add-entry=1.1.1.1  (of course, replace 1.1.1.1 with the ip address of your client workstation)
-     * In your web browser go to "<node_ip>:63773"
-     * Use the k8s dashboard to open a terminal windows to the alphine-rclone:latest container
-     * Use vi to edit /root/.config/rclone/rclone.config
-     * Cut, copy and paste values from the saved config file as needed
-
-Note - Because of the container based architecture, the mount functions of rclone and rclone browser will not mount
-cloud based file systems to the rclone container.
-
-Note - the GUI may be a little out of sync when configs are "sideloaded"
-
-Note - cron is available in rclone browser version 1.1 and up.  Version 1.1.2 is due out around 9/15/2020.  Message Steve Klosky if you need it sooner.  Alteratively, load cron by getting to the shell and issuing the "apk update, then apk add cron" commands.
-
-1. To schedule rclone jobs, setup the desired rclone command in the crontab
-     * Use Rclone Browser to setup source and target configs
-     * Study rclone (cli version) to determine appropriate job command syntax (copy?, sync?, ?)
-     * ssh into the cohesity cluster
-     * move to the bash shell
-     * open the firewall to allow client workstation access to the k8s dashboard
-     * sudo firewall-cmd --ipset=cluster_ipset --add-entry=1.1.1.1  (of course, replace 1.1.1.1 with the ip address of your client workstation)
-     * In your web browser go to "<node_ip>:63773"
-     * Use the k8s dashboard to open a terminal windows to the alphine-rclone:latest container
-     * Use vi to edit /etc/crontabs/root
-     * Insert new crontab entries or cut, copy and paste values in the crontab file as needed
-1. To save the cron config
-     * Use Rclone Browser to download the crontab file
-     * Setup a config for the local file system
-     * Use the Explorer to browse the local system and go to /etc/crontabs
-     * Dowload the file named root to a local workstation
-     
-# Lessons Learned
-
-* Here is a compilation of lessons learned while implementing rclone browser -- https://github.com/cohsk/athena-alpine-rclone/blob/master/Lessons-Learned.MD
-     
-# Developer notes
-
-Contributions are welcome.  Please contact Steve Klosky -- steve.klosky@cohesity.com for details
-
-This repository holds assets related to rclone gui (https://rclone.org/gui) 
-ported to Cohesity's Athena (Marketplace) framework (https://developer.cohesity.com/docs/get-started-apps.html)
-production version is here -- https://marketplace.cohesity.com/app-details/rclone-browser
-
-The project used alpine linux "alpine:latest" docker/container image
-
-This is experimental and intended for educational purposes
-
-The respository is to help coordinate versions and issues
-
-How to Build the "Rclone Browser for Cohesity Marketplace" App
-
-You can download the prebuilt package from the Cohesity Marketplace.
-
-If you are interested in learning how it was build, here are instructions.
-
-In order to build the end product, establish an account on https://devportal.cohesity.com
-Contact developer@cohesity.com if you need to get access.
-
-Use the instructions in the docker-image directory to build the image
-
-Please name the image file alpine-rclone:latest
-
-Step 1 -- login to devportal.cohesity.com
-
-Step 2 -- Select "Build an App"
-
-Step 3 -- Select "Container App"
-
-Step 4 -- Fill out the fields in this first web form.  Use the rclone-logo1.svg file from the github deployment directory for the app icon.  Use the screen1 to screen3.svg files for the screenshots.  Most fields should be fairly obvious.  For the Min and Max versions, use 6.2 for Min and "all latest versions".  For now, please leave all App Permissions and App Requirements in the unselected position.  No Additional Json is required.
-
-Step 5 -- Select Next
-
-Step 6 -- Fill out the fields in this second web form.  The fields are self-explanitory.
-
-Step 7 -- Select Next
-
-Step 8 -- On the third web form, use the controls to upload the docker image file (alpine-rclone:latest)
-
-Step 9 -- On the third web form, use the controls to upload or copy/paste the alpine-rclone appspec (https://github.com/cohsk/athena-alpine-rclone/blob/master/deployment/alpine-rclone-appspec.yaml) into the webpage
-
-Step 10 -- Select Next
-
-Step 11 -- Accept the Agreement and Select the "Submit for Review" button
-
-Step 12 -- Wait a minute or two
-
-Step 13 -- Move to the next webpage
-
-Step 14 -- Use the "meatball menu" to the right of the app to access and download the app package file
-
-Congratulations, the app package is ready to go
-
-If you have questions, please log an issue here or contact Steve Klosky -- steve.klosky@cohesity.com
-
-Some notes
-
-Currently workng on a Dockerfile to build the container
-There is a concept of a dev container (has golang and some other tools)
-There is a concept of a prod container (no dev tools, only runtime bits)
+Here are some useful references
+* FAQ -- https://github.com/cohsk/athena-alpine-rclone/blob/master/FAQ.md
+* Lessons Learned -- https://github.com/cohsk/athena-alpine-rclone/blob/master/Lessons-Learned.MD
+* Developers -- https://github.com/cohsk/athena-alpine-rclone/blob/master/Dev%20Notes.md
