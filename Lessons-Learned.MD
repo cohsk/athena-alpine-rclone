@@ -69,6 +69,7 @@ the k8s endpoint
 * follow this article and adjust your $HOME/.kube/config file point at the Cohesity k8s cluster
 * https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
 * your config file should look something like this
+~~~
 C:\Users\Administrator>kubectl version
 Client Version: version.Info{Major:"1", Minor:"17", GitVersion:"v1.17.0", GitCommit:"70132b0f130acc0bed193d9ba59dd186f0e634cf", GitTreeState:"clean", BuildDate:"2019-12-07T21:20:10Z", GoVersion:"go1.13.4", Compiler:"gc", Platform:"windows/amd64"}
 Unable to connect to the server: dial tcp [::1]:8080: connectex: No connection could be made because the target machine actively refused it.
@@ -157,5 +158,6 @@ preferences: {}
 users: null
 
 C:\Users\Administrator>
+~~~
 
 
